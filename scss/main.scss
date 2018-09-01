@@ -1,0 +1,276 @@
+@import "config";
+@import "menu";
+
+html {
+  height: 100%;
+}
+
+* {
+  cursor: default;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+  @include background;
+  background: $primary-color;
+  color: set-text-color($primary-color);
+  height: 80vp;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.5;
+
+  #head-line {
+    min-width: 700px;
+  }
+}
+
+// Headings
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 400;
+
+  &.lg-heading {
+    font-size: 6rem;
+  }
+
+  &.sm-heading {
+    margin-bottom: 2rem;
+    padding: 0.2rem 1rem;
+    background: rgba(lighten($primary-color, 2), 0.5);
+  }
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+header {
+  position: fixed;
+  z-index: 2;
+  width: 100%;
+}
+
+.text-secondary {
+  color: $secondary-color;
+}
+
+#main-content {
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  overflow: hidden;
+}
+
+main {
+  padding: 4rem;
+  // height: 100%;
+  min-height: calc(100vh - 60px);
+
+  .icons {
+    margin-top: 1rem;
+    a {
+      padding: 0.4rem;
+
+      i {
+        @include easeOut;
+        &:hover {
+          transform: scale(1.1);
+          color: $secondary-color;
+        }
+      }
+    }
+  }
+
+  &#home {
+    overflow: hidden;
+    h1 {
+      margin-top: 1vh;
+    }
+  }
+}
+
+// Work/Projects
+.projects {
+  max-width: 1200px;
+  margin: 3rem;
+  display: grid;
+  grid-gap: 0.7rem;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr 1fr;
+
+  img {
+    @include easeOut;
+    width: 100%;
+    max-height: 400px;
+    height: 100%;
+    border: 3px white solid;
+  }
+  .item {
+    max-height: 500px;
+    width: auto;
+  }
+}
+
+.contact {
+  @include easeOut;
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+  font-size: 40px;
+  padding: 1rem 0;
+  font-weight: 300;
+  color: set-text-color($primary-color);
+  text-decoration: none;
+  &.show {
+    @include easeOut;
+    z-index: 0;
+    opacity: 1;
+  }
+  li {
+    list-style: none;
+    margin: 20px;
+  }
+}
+// Button Styles
+.btn {
+  @include easeOut;
+  font-size: 35px;
+  text-transform: uppercase;
+  padding: 1rem 0;
+  font-weight: 300;
+  color: set-text-color($primary-color);
+  text-decoration: none;
+  z-index: -1;
+  opacity: 0;
+  position: absolute;
+  display: block;
+  padding: 0.5rem 1rem;
+  border: 0;
+  margin-bottom: 0.3rem;
+
+  height: auto;
+  &:hover {
+    @include easeOut;
+    transform: scale(1.1);
+    border-color: $secondary-color;
+  }
+  &.show {
+    @include easeOut;
+    z-index: 0;
+    opacity: 1;
+  }
+}
+
+.btn-dark {
+  @include easeOut;
+  @extend .btn;
+  background: darken($primary-color, 20);
+  color: set-text-color($primary-color);
+  border-color: lighten($primary-color, 20);
+  border-width: 3px;
+  border-style: solid;
+}
+
+#main-footer {
+  text-align: center;
+  padding: 1rem;
+  background: darken($primary-color, 10);
+  color: set-text-color($primary-color);
+  height: 60px;
+}
+
+.job-title {
+  color: set-text-color($primary-color);
+  @include easeOut;
+  &:hover {
+    color: $secondary-color;
+    font-size: 102%;
+  }
+}
+
+/* Make the image to responsive */
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The overlay effect - lays on top of the container and over the image */
+.overlay {
+  position: absolute;
+  bottom: 10%;
+  left: 3px;
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.5); /* Black see-through */
+  text-decoration: none;
+  color: brighten($secondary-color, 20);
+  width: -webkit-calc(100% - 6px);
+  width: -moz-calc(100% - 6px);
+  width: calc(100% - 6px);
+  @include easeOut;
+  opacity: 0;
+  text-transform: uppercase;
+  font-size: 20px;
+  padding: 20px;
+  text-align: center;
+  transform: scaleY(0) translateY(60%);
+  &:hover {
+    .faded {
+      @include easeOut;
+      opacity: 0.95;
+      transform: scale(1.03);
+    }
+  }
+}
+
+/* When you mouse over the container, fade in the overlay title */
+
+.container {
+  @include easeOut;
+  position: relative;
+  max-height: 400px;
+  &:hover {
+    @include easeOut;
+    transform: scale(1.01);
+    img {
+      @include easeOut;
+      opacity: 0.7;
+      border-color: $secondary-color;
+      border-style: solid;
+    }
+    .overlay {
+      @include easeOut;
+      opacity: 1;
+      transform: scaleY(1) translateY(0);
+    }
+  }
+}
+
+.highlighted {
+  @include easeOut;
+  transform: scale(1.01);
+  z-index: 1;
+  img {
+    @include easeOut;
+    opacity: 0.7;
+    border-color: $secondary-color;
+    border-style: solid;
+  }
+  .overlay {
+    opacity: 1;
+    transform: scaleY(1) translateY(0);
+  }
+}
+.faded {
+  @include easeOut;
+  opacity: 0.8;
+}
+@import "mobile";
