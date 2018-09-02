@@ -1,7 +1,6 @@
 package main
 
 import (
-	//"io/ioutil"
 	"context"
 	"crypto/tls"
 	"encoding/json"
@@ -24,7 +23,7 @@ type config struct {
 
 var c config
 var configFile string
-var httpPort = "127.0.0.1:8080"
+var httpPort = ":8000"
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	file := path.Join(c.DistDirectory, "index.html")
@@ -79,7 +78,7 @@ func main() {
 		var httpsServer *http.Server
 		hostPolicy := func(ctx context.Context, host string) error {
 			// Note: change to your real host
-			allowedHost := "www.kaylwalton.com"
+			allowedHost := "kaylwalton.com"
 			if host == allowedHost {
 				return nil
 			}

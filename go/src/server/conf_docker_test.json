@@ -1,0 +1,5 @@
+{
+  "rootdirectory": "/app",
+  "distdirectory": "/app/dist",
+  "enablehttps": "false"
+}

@@ -68,12 +68,17 @@
 
 // Smartphones
 @include mediaSm {
+  .contact {
+    font-size: 20px;
+  }
   .overlay {
     font-size: 14px;
     padding: 10px;
   }
   .btn {
     font-size: 20px;
+    transform: scale(1.1);
+    border-color: $secondary-color;
   }
   .container {
     img {
