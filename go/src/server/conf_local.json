@@ -1,4 +1,5 @@
 {
   "rootdirectory": "/home/kayl/work/portfolio",
-  "distdirectory": "/home/kayl/work/portfolio/dist"
+  "distdirectory": "/home/kayl/work/portfolio/dist",
+  "enablehttps": "false"
 }
