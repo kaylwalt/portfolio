@@ -386,13 +386,15 @@ main {
       height: 150px; } }
 
 @media screen and (max-width: 600px) {
-  .contact {
+  .nav-item .nav-link {
     font-size: 20px; }
+  .contact {
+    font-size: 16px; }
   .overlay {
     font-size: 14px;
     padding: 10px; }
   .btn, .btn-dark {
-    font-size: 20px;
+    font-size: 16px;
     transform: scale(1.1);
     border-color: #eece1a; }
   .container img {
@@ -412,10 +414,10 @@ main {
     padding: 0.3rem; }
     main#home .lg-heading {
       margin-top: 8vh;
-      font-size: 2rem; }
+      font-size: 1.4rem; }
     main#home .sm-heading {
       margin-bottom: 1rem;
-      font-size: 0.8rem;
+      font-size: 0.6rem;
       padding: 0.2rem 0.5rem;
       background: rgba(73, 73, 73, 0.5); }
   #main-content {

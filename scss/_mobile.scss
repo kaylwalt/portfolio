@@ -68,15 +68,20 @@
 
 // Smartphones
 @include mediaSm {
+  .nav-item {
+    .nav-link {
+      font-size: 20px;
+    }
+  }
   .contact {
-    font-size: 20px;
+    font-size: 16px;
   }
   .overlay {
     font-size: 14px;
     padding: 10px;
   }
   .btn {
-    font-size: 20px;
+    font-size: 16px;
     transform: scale(1.1);
     border-color: $secondary-color;
   }
@@ -103,11 +108,11 @@
     &#home {
       .lg-heading {
         margin-top: 8vh;
-        font-size: 2rem;
+        font-size: 1.4rem;
       }
       .sm-heading {
         margin-bottom: 1rem;
-        font-size: 0.8rem;
+        font-size: 0.6rem;
         padding: 0.2rem 0.5rem;
         background: rgba(lighten($primary-color, 2), 0.5);
       }
