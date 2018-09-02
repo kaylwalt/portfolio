@@ -1,27 +1,33 @@
 package main
+
 import (
 	//"io/ioutil"
 	"encoding/json"
-	"os"
-	"path"
 	"log"
 	"net/http"
+	"os"
+	"path"
+
 	"github.com/gorilla/mux"
 )
+
 type config struct {
-	RootDirectory string `json:"rootdirectory"`
-	DistDirectory string `json:"distdirectory"`
+	RootDirectory string
+	DistDirectory string
 }
 
-
 var c config
+var configFile string
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	file := path.Join(c.DistDirectory, "index.html")
 	http.ServeFile(w, r, file)
 }
 func main() {
-	file, _ := os.Open("conf_docker.json")
+	if configFile == "" {
+		configFile = "config.json"
+	}
+	file, _ := os.Open(configFile)
 	defer file.Close()
 	decoder := json.NewDecoder(file)
 	err := decoder.Decode(&c)
