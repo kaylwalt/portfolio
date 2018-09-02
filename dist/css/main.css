@@ -104,6 +104,12 @@
 html {
   height: 100%; }
 
+.preload * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important; }
+
 * {
   cursor: default;
   box-sizing: border-box; }
