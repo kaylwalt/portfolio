@@ -54,24 +54,6 @@
     containers[autonomousIndex].classList.remove("highlighted");
   });
 
-  var resized = false;
-
-  window.onresize = () => {
-    if (!resized) {
-      resized = true;
-      const images = document.querySelectorAll("img");
-      images.forEach(image => (image.style.height = "auto"));
-      images.forEach(image => (image.style.width = "100%"));
-    }
-  };
-  equalizeImages = () => {
-    const images = document.querySelectorAll("img");
-    const maxHeight = Math.max(...Array.from(images).map(i => i.height));
-    const maxWidth = Math.max(...Array.from(images).map(i => i.width));
-    images.forEach(image => (image.style.height = maxHeight.toString() + "px"));
-    images.forEach(image => (image.style.width = maxWidth.toString() + "px"));
-  };
-  equalizeImages();
   //Set Initial State Of Menu
   let showMenu = false;
 
