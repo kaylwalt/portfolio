@@ -23,7 +23,7 @@ type config struct {
 
 var c config
 var configFile string
-var httpPort = ":8000"
+var httpPort = ":80"
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	file := path.Join(c.DistDirectory, "index.html")
