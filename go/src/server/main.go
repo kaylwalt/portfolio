@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -20,12 +19,12 @@ type config struct {
 	CertDirectory string
 }
 
-var c config
+var configuration config
 var configFile string
 var httpPort = ":80"
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	file := path.Join(c.DistDirectory, "index.html")
+	file := path.Join(configuration.DistDirectory, "index.html")
 	http.ServeFile(w, r, file)
 }
 func makeServerFromMux(mux http.Handler) *http.Server {
@@ -42,7 +41,7 @@ func makeServerFromMux(mux http.Handler) *http.Server {
 func makeHTTPServer() *http.Server {
 	router := mux.NewRouter()
 	router.HandleFunc("/", rootHandler)
-	router.PathPrefix("/dist/").Handler(http.StripPrefix("/dist/", http.FileServer(http.Dir(c.DistDirectory))))
+	router.PathPrefix("/dist/").Handler(http.StripPrefix("/dist/", http.FileServer(http.Dir(configuration.DistDirectory))))
 
 	return makeServerFromMux(router)
 
@@ -66,27 +65,25 @@ func main() {
 	file, _ := os.Open(configFile)
 	defer file.Close()
 	decoder := json.NewDecoder(file)
-	err := decoder.Decode(&c)
+	err := decoder.Decode(&configuration)
 	if err != nil {
 		log.Println(err)
 		log.Fatalln("json decoder failed")
 	}
-	log.Println(c)
 	var m *autocert.Manager
-	if c.EnableHTTPS == "true" {
+	if configuration.EnableHTTPS == "true" {
 		var httpsServer *http.Server
 
 		m = &autocert.Manager{
 			Prompt:     autocert.AcceptTOS,
 			HostPolicy: autocert.HostWhitelist("www.kaylwalton.com", "kaylwalton.com"),
-			Cache:      autocert.DirCache(c.CertDirectory),
+			Cache:      autocert.DirCache(configuration.CertDirectory),
 		}
 		httpsServer = makeHTTPServer()
 		httpsServer.Addr = ":443"
-		//httpsServer.TLSConfig = &tls.Config{GetCertificate: m.GetCertificate}
 		httpsServer.TLSConfig = m.TLSConfig()
 		go func() {
-			fmt.Printf("Starting HTTPS server on %s\n", httpsServer.Addr)
+			log.Printf("Starting HTTPS server on %s\n", httpsServer.Addr)
 			err := httpsServer.ListenAndServeTLS("", "")
 			if err != nil {
 				log.Fatalf("httpsSrv.ListendAndServeTLS() failed with %s", err)
@@ -95,7 +92,7 @@ func main() {
 	}
 
 	var httpServer *http.Server
-	if c.EnableHTTPS == "true" {
+	if configuration.EnableHTTPS == "true" {
 		httpServer = makeHTTPToHTTPSRedirectServer()
 	} else {
 		httpServer = makeHTTPServer()
