@@ -1,8 +1,6 @@
 package main
 
 import (
-	"context"
-	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -18,7 +16,8 @@ import (
 type config struct {
 	RootDirectory string
 	DistDirectory string
-	EnableHttps   string
+	EnableHTTPS   string
+	CertDirectory string
 }
 
 var c config
@@ -74,25 +73,18 @@ func main() {
 	}
 	log.Println(c)
 	var m *autocert.Manager
-	if c.EnableHttps == "true" {
+	if c.EnableHTTPS == "true" {
 		var httpsServer *http.Server
-		hostPolicy := func(ctx context.Context, host string) error {
-			// Note: change to your real host
-			allowedHost := "kaylwalton.com"
-			if host == allowedHost {
-				return nil
-			}
-			return fmt.Errorf("acme/autocert: only %s host is allowed", allowedHost)
-		}
-		dataDir := "."
+
 		m = &autocert.Manager{
 			Prompt:     autocert.AcceptTOS,
-			HostPolicy: hostPolicy,
-			Cache:      autocert.DirCache(dataDir),
+			HostPolicy: autocert.HostWhitelist("www.kaylwalton.com", "kaylwalton.com"),
+			Cache:      autocert.DirCache(c.CertDirectory),
 		}
 		httpsServer = makeHTTPServer()
 		httpsServer.Addr = ":443"
-		httpsServer.TLSConfig = &tls.Config{GetCertificate: m.GetCertificate}
+		//httpsServer.TLSConfig = &tls.Config{GetCertificate: m.GetCertificate}
+		httpsServer.TLSConfig = m.TLSConfig()
 		go func() {
 			fmt.Printf("Starting HTTPS server on %s\n", httpsServer.Addr)
 			err := httpsServer.ListenAndServeTLS("", "")
@@ -103,7 +95,7 @@ func main() {
 	}
 
 	var httpServer *http.Server
-	if c.EnableHttps == "true" {
+	if c.EnableHTTPS == "true" {
 		httpServer = makeHTTPToHTTPSRedirectServer()
 	} else {
 		httpServer = makeHTTPServer()
